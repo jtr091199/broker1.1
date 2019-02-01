@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jenkis-build" default="build">
+	<property file="build.properties"/>
+	<property name="datadir" value="../../" />
+	<target name="build">
+		<echo message="Building bar..." />
+		<exec executable = "${iib.toolkit}/mqsicreatebar">
+			<arg value	= "-data" />
+			<arg value = "${datadir}" />
+			<arg value = "-b" />
+			<arg value = "${bar.name} "/>
+			<arg value = "-a" />
+			<arg value = "${appname}"/>
+			<arg value = "-deployAsSource" />
+		</exec>
+		<echo message = "Bar Builded..."/>
+		<echo message = "Applying bar overrides"/>
+		<exec executable = "baroverride.bat">
+			<arg value = "${bar.name}" />
+			<arg value = "${properties}" />
+		</exec>
+		<echo message = "Bar overriden... "/>
+		<echo message = "Depoying Bar..." />
+		<exec executable ="deploycmd.bat">
+			<arg value ="${ibb.broker}"/>
+			<arg value = "${iib.server}"/>
+			<arg value = "${bar.name}"/>
+		</exec>
+		<echo message ="Bar file deployed..."/>
+	</target>
+</project>
